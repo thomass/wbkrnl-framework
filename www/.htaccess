@@ -1,0 +1,12 @@
+allow from all
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+
+# use the requested directory/file if it exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# otherwise: handle it via php
+RewriteRule ^.*$ index.php [L]
+</IfModule>
