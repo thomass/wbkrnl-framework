@@ -1,7 +1,7 @@
 <?php
 abstract class Component
 {
-	public function __contstruct()
+	public function __construct()
 	{
 		$this->init();
 	}
