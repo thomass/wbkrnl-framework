@@ -8,7 +8,11 @@ class UniqueValidator extends Validator
 	protected function validateProperty(Model $model, $property)
 	{
 		$className = get_class($model);
-		if ($className::count([$property => $model->$property]) > 0) {
+		if (!($model instanceof NoSqlModel)){
+			throw new Exception(getclass($model) . " is not instance of NoSqlModel");
+		}
+		/* @var $model NoSqlModel */
+		if ($model->isNew && $className::count([$property => $model->$property]) > 0) {
 			$model->addError($property, "Has to be unique");
 		}
 	}
