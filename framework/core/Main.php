@@ -4,6 +4,8 @@
  * @property Mongo $db
  * @property RouteMap $routeMap
  * @property-read string $route
+ * @property-read FileRenderer $fileRenderer
+ * @property-read HtmlHead $htmlHead
  */
 abstract class Main
 {
@@ -110,6 +112,14 @@ abstract class Main
 	 * @var string
 	 */
 	private $_route;
+	/**
+	 * @var FileRenderer
+	 */
+	private $_fileRenderer;
+	/**
+	 * @var HtmlHead
+	 */
+	private $_htmlHead;
 
 	/**
 	 * @param array $config
@@ -121,8 +131,9 @@ abstract class Main
 		// load the configuration
 		$this->_config = $config;
 		// load default aliases
-		self::$_aliases["root"] = realpath(dirname(__FILE__) . "/../..");
+		self::alias("root", realpath(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..'));
 		self::alias("framework", dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
+		self::alias("views", self::path("root.views"));
 		// import main classes
 		self::import("framework.core.*");
 		self::import("framework.db.*");
@@ -138,6 +149,9 @@ abstract class Main
 				unset($c);
 			}
 		}
+		$this->_htmlHead = new HtmlHead();
+		$this->_htmlHead->title=$this->appName;
+		$this->_htmlHead->addMeta(["charset"=>$this->charset]);
 		if (self::$_app === null) {
 			self::setApp($this);
 		}
@@ -173,6 +187,26 @@ abstract class Main
 		}
 	}
 
+	/**
+	 * @return FileRenderer
+	 */
+	public function getFileRenderer(){
+		if ($this->_fileRenderer===null){
+			$this->_fileRenderer=new FileRenderer();
+		}
+		return $this->_fileRenderer;
+	}
+
+	/**
+	 * @return HtmlHead
+	 */
+	public function getHtmlHead(){
+		return $this->_htmlHead;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getRoute()
 	{
 		if ($this->_route === null) {

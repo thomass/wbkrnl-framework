@@ -1,6 +1,16 @@
 <?php
 abstract class Component
 {
+	public function __contstruct()
+	{
+		$this->init();
+	}
+
+	public function init()
+	{
+
+	}
+
 	/**
 	 * @param string $property
 	 *
