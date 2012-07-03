@@ -10,10 +10,6 @@ return [
 	'dbName' => 'live',
 	'routeMap' => [
 		'class' => 'RouteMap',
-		'args' => [[
-			// e.g. [class/type-Route, Controller/method/paramName1/paramName3/paramName2, [options,..]]
-			['regex', 'DefaultController/actionIndex', 'pattern' => '#^/$#',],
-			['regex', 'DefaultController/actionIndex/_omit_/name/_omit_/id', 'pattern' => '#^(/([a-zA-Z]+))?(/([0-9]+))?$#',]
-		]],
+		'args' => [include dirname(__FILE__) . DIRECTORY_SEPARATOR . "routeMap.php"],
 	],
 ];
