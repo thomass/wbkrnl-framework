@@ -4,15 +4,13 @@ class ClassValidator extends Validator
 	public $class;
 	public $nullable = false;
 
-	/**
-	 * @param Model  $model
-	 * @param string $property
-	 */
-	protected function validateProperty(Model $model, $property)
+	public function validate()
 	{
-		if (get_class($model->$property) !== $this->class && (!$this->nullable && $model->$property === null)
-		) {
-			$model->addError($property, "Class does not match");
+		foreach ($this->properties as $property) {
+			if (get_class($this->model->$property) !== $this->class && (!$this->nullable && $this->model->$property === null)
+			) {
+				$this->model->addError($property, "Class does not match");
+			}
 		}
 	}
 }

@@ -1,19 +1,21 @@
 <?php
 class UniqueValidator extends Validator
 {
-	/**
-	 * @param Model  $model
-	 * @param string $property
-	 */
-	protected function validateProperty(Model $model, $property)
+	public function validate()
 	{
-		$className = get_class($model);
-		if (!($model instanceof NoSqlModel)){
-			throw new Exception(getclass($model) . " is not instance of NoSqlModel");
+		$className = get_class($this->model);
+		if (!($this->model instanceof NoSqlModel)){
+			throw new Exception(getclass($this->model) . " is not instance of NoSqlModel");
 		}
-		/* @var $model NoSqlModel */
-		if ($model->isNew && $className::count([$property => $model->$property]) > 0) {
-			$model->addError($property, "Has to be unique");
+		/* @var $this->model NoSqlModel */
+		$query = [];
+		foreach ($this->properties as $property) {
+			$query[$property] = $this->model->$property;
+		}
+		if ($this->model->isNew && $className::count($query) > 0) {
+			foreach ($this->properties as $property) {
+				$this->model->addError($property, "Has to be unique [" . implode(",",$this->properties) . "]");
+			}
 		}
 	}
 }

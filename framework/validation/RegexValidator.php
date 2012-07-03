@@ -3,14 +3,12 @@ class RegexValidator extends Validator
 {
 	public $pattern;
 
-	/**
-	 * @param Model  $model
-	 * @param string $property
-	 */
-	protected function validateProperty(Model $model, $property)
+	public function validate()
 	{
-		if (!preg_match($this->pattern, $model->$property)) {
-			$model->addError($property, "Regex doesn't match");
+		foreach ($this->properties as $property) {
+			if (!preg_match($this->pattern, $this->model->$property)) {
+				$this->model->addError($property, "Regex doesn't match");
+			}
 		}
 	}
 }

@@ -179,18 +179,17 @@ abstract class Model extends Component
 			$validatorClass = array_shift($options);
 			$properties = array_shift($options);
 			if (isset(self::$validatorAliases[$validatorClass])) {
+				// redefine $validatorClass, because an alias was used
 				$validatorClass = self::$validatorAliases[$validatorClass];
 			}
 			$validator = new $validatorClass;
+			// configure the validator
 			foreach ($options as $option => $value) {
 				$validator->$option = $value;
 			}
-			foreach ($properties as $property) {
-				if (!isset($this->_validators[$property])) {
-					$this->_validators[$property] = [];
-				}
-				$this->_validators[$property][] = $validator;
-			}
+			$validator->model = $this;
+			$validator->properties = $properties;
+			$this->_validators[] = $validator;
 		}
 	}
 
@@ -250,10 +249,8 @@ abstract class Model extends Component
 		if ($this->_validators === null) {
 			$this->loadValidators();
 		}
-		foreach ($this->_validators as $property => $validators) {
-			foreach ($validators as $validator) {
-				$validator->validate($this, $property);
-			}
+		foreach ($this->_validators as $validator) {
+			$validator->validate();
 		}
 		return $this->_errors === [];
 	}

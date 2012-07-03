@@ -2,17 +2,12 @@
 abstract class Validator extends Component
 {
 	/**
-	 * @param Model  $model
-	 * @param string $property
+	 * @var Model
 	 */
-	public function validate(Model $model, $property)
-	{
-		$this->validateProperty($model, $property);
-	}
-
+	public $model;
 	/**
-	 * @param Model  $model
-	 * @param string $property
+	 * @var array
 	 */
-	abstract protected function validateProperty(Model $model, $property);
+	public $properties;
+	abstract public function validate();
 }

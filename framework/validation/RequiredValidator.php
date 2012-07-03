@@ -1,15 +1,13 @@
 <?php
 class RequiredValidator extends Validator
 {
-	/**
-	 * @param Model  $model
-	 * @param string $property
-	 */
-	protected function validateProperty(Model $model, $property)
+	public function validate()
 	{
-		$v = $model->$property;
-		if ($v === null || $v === [] || $v === '' || is_scalar($v) && trim($v) === '') {
-			$model->addError($property, "Cannot be empty");
+		foreach ($this->properties as $property) {
+			$v = $this->model->$property;
+			if ($v === null || $v === [] || $v === '' || is_scalar($v) && trim($v) === '') {
+				$this->model->addError($property, "Cannot be empty");
+			}
 		}
 	}
 }
