@@ -176,8 +176,8 @@ abstract class Model extends Component
 	{
 		$this->_validators = [];
 		foreach ($this->rules() as $options) {
-			$properties = explode(',', array_shift($options));
 			$validatorClass = array_shift($options);
+			$properties = array_shift($options);
 			if (isset(self::$validatorAliases[$validatorClass])) {
 				$validatorClass = self::$validatorAliases[$validatorClass];
 			}
@@ -206,14 +206,7 @@ abstract class Model extends Component
 		}
 		$this->_properties = [];
 		foreach ($this->rules() as $rule) {
-			if (strpos($rule[0], ',') === false) {
-				$this->_properties[] = $rule[0];
-			} else {
-				$unparsedProperties = explode(',', $rule[0]);
-				foreach ($unparsedProperties as $unparsedProperty) {
-					$this->_properties[] = trim($unparsedProperty);
-				}
-			}
+			$this->_properties = array_merge($this->_properties,$rule[1]);
 		}
 		$this->_properties = array_unique($this->_properties);
 		return $this->_properties;

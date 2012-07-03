@@ -22,11 +22,11 @@ class User extends NoSqlModel
 	public function rules()
 	{
 		return [
-			['email,password', 'required'],
-			['email', 'regex', 'pattern' => '/.*@.*/'],
-			['email', 'unique'],
-			['createDate,modifyDate', 'class', 'class' => 'MongoDate', 'nullable' => true],
-			['password', 'regex', 'pattern' => '/^[0-f]+$/'],
+			['required', ['email', 'password']],
+			['regex', ['email'], 'pattern' => '/.*@.*/'],
+			['unique', ['email']],
+			['class', ['createDate', 'modifyDate'], 'class' => 'MongoDate', 'nullable' => true],
+			['regex', ['password'], 'pattern' => '/^[0-f]+$/'],
 		];
 	}
 
