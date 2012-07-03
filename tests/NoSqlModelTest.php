@@ -18,6 +18,8 @@ class NoSqlModelTest extends TestCase
 		$user = new User;
 		$user->email = 'jane@doe.com';
 		$user->password = "bar";
+		$this->assertTrue($user->matchPassword("bar"), "Password should match");
+		$this->assertFalse($user->matchPassword("foo"), "Password should not match");
 		$this->assertNull($user->id, "User should NOT be saved");
 		$this->assertTrue($user->validate(), "User should have validated\n" . json_encode($user->errors()));
 		$this->assertTrue($user->save(), "User should have been saved");
@@ -38,7 +40,6 @@ class NoSqlModelTest extends TestCase
 				"Class should be MongoId, it is: " . ($user->id === null ? gettype($user->id) : get_class($user->id))
 			);
 			$this->assertTrue(is_string($user->email), "Email should be a string: " . gettype($user->email));
-			$this->assertTrue(is_string($user->password), "Password should be a string " . gettype($user->password));
 			$this->assertInstanceOf(
 				"MongoDate", $user->createDate, "Class should be MongoDate, it is: " . (
 			$user->createDate === null ? gettype($user->createDate) : get_class($user->createDate))

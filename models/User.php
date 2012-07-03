@@ -1,12 +1,19 @@
 <?php
 /**
  * @property string    email
- * @property Password  password
+ * @property string    password
  * @property MongoDate createDate
  * @property MongoDate modifyDate
  */
 class User extends NoSqlModel
 {
+
+	/**
+	 * Check if this object its password matches the input
+	 * @param string $password
+	 * @return bool True on match, false otherwise
+	 */
+	public function matchPassword($password) { return Password::match($this->_data['password'], $password); }
 
 	public function onBeforeSave()
 	{
@@ -31,7 +38,7 @@ class User extends NoSqlModel
 	}
 
 	/**
-	 * @param $value
+	 * @param string $value
 	 */
 	public function setPassword($value)
 	{
