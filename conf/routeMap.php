@@ -1,11 +1,18 @@
 <?php
+//
 // RouteMap file
+//
 // Default route types:
 // * regex: RegexRoute
 // * simple: SimpleRoute
-// format:
-// [class/type, class/method/paramName1/_omit_/paramName3/paramName2, [routeOptions, ...]]
+//
+// Default Route format:
+// [class/type, ['class','method', 'paramName' => 'value', ...], [routeOptions, ...]]
+
 return [
-	['regex', 'DefaultController/actionIndex', 'pattern' => '#^/$#',],
-	['regex', 'DefaultController/actionIndex/_omit_/name/_omit_/id', 'pattern' => '#^(/([a-zA-Z]+))?(/([0-9]+))?$#',],
+//	['simple', ['DefaultController', 'actionIndex'], 'whole' => '/',],
+//	['simple', ['DefaultController', 'actionIndex'], 'begin' => '/begin/',],
+//	['simple', ['DefaultController', 'actionIndex'], 'end' => '/end',],
+//	['simple', ['DefaultController', 'actionIndex'], 'contains' => '/contains/',],
+	['regex', ['DefaultController', 'actionIndex', 'name' => 2, 'id' => 4], 'pattern' => '#^(/([a-zA-Z]+))?(/([0-9]+))?$#',],
 ];

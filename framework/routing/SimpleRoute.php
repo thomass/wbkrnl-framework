@@ -4,7 +4,7 @@ class SimpleRoute extends Route
 	/**
 	 * @var string
 	 */
-	public $beginPattern;
+	public $begin;
 
 	/**
 	 * @var string
@@ -14,12 +14,12 @@ class SimpleRoute extends Route
 	/**
 	 * @var string
 	 */
-	public $endPattern;
+	public $end;
 
 	/**
 	 * @var string
 	 */
-	public $wholePattern;
+	public $whole;
 
 	/**
 	 * @return bool True on success, otherwise false
@@ -28,15 +28,15 @@ class SimpleRoute extends Route
 	{
 		$success = true;
 		// check if the pattern matches the beginning of the query
-		if ($this->beginPattern !== null && strpos($query, $this->beginPattern) !== 0) {
+		if ($this->begin !== null && strpos($query, $this->begin) !== 0) {
 			$success = false;
 		}
 		// check if the pattern matches the ending of the query
-		if ($this->endPattern !== null && strpos($query, $this->endPattern) !== (strlen($query) - strlen($this->endPattern))) {
+		if ($this->end !== null && strpos($query, $this->end) !== (strlen($query) - strlen($this->end))) {
 			$success = false;
 		}
 		// check if the whole pattern matches to the query
-		if ($this->wholePattern !== null && $query !== $this->wholePattern) {
+		if ($this->whole !== null && $query !== $this->whole) {
 			$success = false;
 		}
 		// check if the query contains the contains-pattern

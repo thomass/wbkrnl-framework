@@ -18,13 +18,13 @@ abstract class Route extends Component
 	private $_actionArgs;
 
 	/**
-	 * @param string $route
+	 * @param array $route ['class', 'method', 'paramName' => 'value', ...]
 	 */
-	public function __construct($route)
+	public function __construct(array $route)
 	{
-		$this->_actionArgs = explode('/', $route);
-		$this->_actionClass = array_shift($this->_actionArgs);
-		$this->_actionMethod = array_shift($this->_actionArgs);
+		$this->_actionClass = array_shift($route);
+		$this->_actionMethod = array_shift($route);
+		$this->_actionArgs = $route;
 	}
 
 	/**

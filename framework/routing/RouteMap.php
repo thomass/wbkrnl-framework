@@ -3,6 +3,7 @@ class RouteMap extends Component
 {
 	private $_routeAliases = [
 		'regex' => 'RegexRoute',
+		'simple' => 'SimpleRoute',
 	];
 	/**
 	 * @var Route[]
